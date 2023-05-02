@@ -8,7 +8,7 @@ Token token_new(WS kind, unsigned row, unsigned col) {
     return t;
 }
 
-// Print a token (without any kind of delimiter or new line)
+// Print a token ended by a new line
 void token_print(Token * tok) {
     switch (tok->kind) {
         case SPACE: printf("SPACE (%u, %u)\n", tok->row, tok->col); break;

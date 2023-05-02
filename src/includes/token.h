@@ -4,17 +4,28 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-typedef enum { END, SPACE, TAB, LINE, ERROR } WS;
+// Enum for the kinds of whitespace tokens
+typedef enum {
+    END,   // End of the src file
+    SPACE, // ' '  - space
+    TAB,   // '\t' - tab
+    LINE,  // '\n' - new line
+    ERROR  // Some error occured
+} WS;
 
+// Token with a kind and it's position on the file 
 typedef struct {
     WS kind;
-    unsigned row, col;
+    unsigned row, col; // position
 } Token;
 
+// Constructor for a new token
 Token token_new(WS kind, unsigned row, unsigned col);
 
+//Print a token
 void token_print(Token * tok);
 
+// Check if a character is a valid token
 bool is_valid(char c);
 
 #endif // TOKEN_H
