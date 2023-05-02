@@ -1,41 +1,50 @@
 #include <stdio.h>
 #include "includes/ast.h"
 
+// Construct an Input/Output command with no parameters
 Instr makeIO(IOCmd cmd) {
     Instr i = {IO, { .io = cmd }, 0};
     return i;
 }
 
+// Construct a Stack command with no parameters
 Instr make_stack(STACKCmd cmd) {
     Instr i = {STACK, { .stack = cmd}, 0};
     return i;
 }
 
+// Construct a Stack command with a integer parameter
 Instr make_stack_param(STACKCmd cmd, int param) {
     Instr i = {STACK, { .stack = cmd}, param};
     return i;
 }
 
+// Construct an Arithmetic command with no parameters
 Instr make_arith(ARITHCmd cmd) {
     Instr i = {ARITH, { .arith = cmd}, 0};
     return i;
 }
 
+// Construct a Flow Control command with no parameters
 Instr make_flow(FLOWCmd cmd) {
     Instr i = {FLOW, { .flow = cmd}, 0};
     return i;
 }
 
+// Construct a Flow Control command with a integer paramter
 Instr make_flow_param(FLOWCmd cmd, int param)  {
     Instr i = {FLOW, { .flow = cmd}, param};
     return i;
 }
 
+// Construct a Heap command with no parameters
 Instr make_heap(HEAPCmd cmd)  {
     Instr i = {HEAP, { .heap = cmd}, 0};
     return i;
 }
 
+
+// Print an Input/Output Command
 void print_io(Instr instr) {
     switch (instr.cmd.io) {
     case READC: puts("Read Character"); break;
@@ -45,6 +54,7 @@ void print_io(Instr instr) {
     }
 }
 
+// Print a Stack Command
 void print_stack(Instr instr) {
     switch (instr.cmd.stack) {
     case PUSH : printf("Push %d\n", instr.param) ; break;
@@ -56,6 +66,7 @@ void print_stack(Instr instr) {
     }
 }
 
+// Print an Arithmetic Command
 void print_arith(Instr instr) {
     switch (instr.cmd.arith) {
     case ADD: puts("ADD"); break;
@@ -66,6 +77,7 @@ void print_arith(Instr instr) {
     }
 }
 
+// Print a Flow Control Command
 void print_flow(Instr instr) {
     switch (instr.cmd.flow) {
     case LABEL : printf("Label lbl%d\n", instr.param)        ; break;
@@ -78,6 +90,7 @@ void print_flow(Instr instr) {
     }
 }
 
+// Print an Heap Command
 void print_heap(Instr instr) {
     switch (instr.cmd.heap) {
     case STORE   : puts("Store")   ; break;
@@ -85,6 +98,7 @@ void print_heap(Instr instr) {
     }
 }
 
+// Print a command
 void print_instr(Instr instr) {
     switch (instr.imp) {
     case IO   : print_io(instr)   ; break;
