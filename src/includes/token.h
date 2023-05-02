@@ -22,7 +22,10 @@ typedef struct {
 // Constructor for a new token
 Token token_new(WS kind, unsigned row, unsigned col);
 
-//Print a token
+// Print a token with position ended by a new line
+void token_print_pos(Token * tok);
+
+// Print a simplified version of the token (only kind) 
 void token_print(Token * tok);
 
 // Check if a character is a valid token
