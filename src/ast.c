@@ -82,7 +82,7 @@ void print_flow(Instr instr) {
     switch (instr.cmd.flow) {
     case LABEL : printf("Label lbl%d\n", instr.param)        ; break;
     case CALL  : printf("Call lbl%d\n", instr.param)         ; break;
-    case JMP   : printf("Goto lbl%d\n", instr.param)         ; break;                          ; break;  
+    case JMP   : printf("Goto lbl%d\n", instr.param)         ; break;  
     case JMPZ  : printf("If (= 0) goto lbl%d\n", instr.param); break; 
     case JMPNEG: printf("If (< 0) goto lbl%d\n", instr.param); break; 
     case RETURN: printf("Return\n")                          ; break; 

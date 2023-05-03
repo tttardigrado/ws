@@ -38,7 +38,3 @@ bool is_valid(char c) {
 bool is_kind(Token tok, WS kind) {
     return tok.kind == kind;
 }
-
-bool is_kind2(Token tok1, Token tok2, WS kind1, WS kind2) {
-    return tok1.kind == kind1 && tok2.kind == kind2;
-}

@@ -33,6 +33,4 @@ bool is_valid(char c);
 
 bool is_kind(Token tok, WS kind);
 
-bool is_kind2(Token tok1, Token tok2, WS kind1, WS kind2);
-
 #endif // TOKEN_H

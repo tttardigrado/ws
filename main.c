@@ -3,13 +3,20 @@
 #include "src/includes/common.h"
 #include "src/includes/token.h"
 #include "src/includes/lexer.h"
+#include "src/includes/ast.h"
+#include "src/includes/parser.h"
 
 int main(int argc, char const *argv[]) {
     if (argc <= 1) return 1;
 
-    if      (streq(argv[1], "help"))   printf("help\n");
-    else if (streq(argv[1], "lexer"))  printf("lexer\n");
-    else if (streq(argv[1], "parser")) printf("parser\n");
-    else if (streq(argv[1], "run"))    printf("run\n");
+    char * source = readFile(argv[1]);
+    lexer_init(source);
+    
+    while (!lexer_is_at_end()) {
+        Instr instr = parser_get_instr();
+        print_instr(instr);
+    }
+
+    free(source);
     return 0;
 }

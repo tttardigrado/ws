@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include "token.h"
+#include "ast.h"
 
 Instr parser_get_instr();
 
