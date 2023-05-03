@@ -27,7 +27,7 @@ typedef struct {
 } Instr;
 
 // Constructor functions
-Instr makeIO(IOCmd cmd);
+Instr make_io(IOCmd cmd);
 Instr make_stack(STACKCmd cmd);
 Instr make_stack_param(STACKCmd cmd, int param);
 Instr make_arith(ARITHCmd cmd);

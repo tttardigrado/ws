@@ -2,7 +2,7 @@
 #include "includes/ast.h"
 
 // Construct an Input/Output command with no parameters
-Instr makeIO(IOCmd cmd) {
+Instr make_io(IOCmd cmd) {
     Instr i = {IO, { .io = cmd }, 0};
     return i;
 }
