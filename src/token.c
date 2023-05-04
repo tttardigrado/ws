@@ -10,6 +10,8 @@ Token token_new(WS kind, unsigned row, unsigned col) {
 
 // Print a token with position ended by a new line
 void token_print_pos(Token * tok) {
+    if (tok == NULL) return;
+
     switch (tok->kind) {
         case SPACE: printf("SPACE (%u, %u)\n", tok->row, tok->col); break;
         case TAB  : printf("TAB   (%u, %u)\n"  , tok->row, tok->col); break;
@@ -21,6 +23,8 @@ void token_print_pos(Token * tok) {
 
 // Print a simplified version of the token (only kind) 
 void token_print(Token * tok) {
+    if (tok == NULL) return;
+
     switch (tok->kind) {
         case SPACE: putchar('S'); break;
         case TAB  : putchar('T'); break;

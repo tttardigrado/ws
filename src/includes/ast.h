@@ -36,11 +36,11 @@ Instr make_flow_param(FLOWCmd cmd, int param);
 Instr make_heap(HEAPCmd cmd);
 
 // Print functions
-void print_io(Instr instr);
-void print_stack(Instr instr);
-void print_arith(Instr instr);
-void print_flow(Instr instr);
-void print_heap(Instr instr);
-void print_instr(Instr instr);
+void print_io(Instr * instr);
+void print_stack(Instr * instr);
+void print_arith(Instr * instr);
+void print_flow(Instr * instr);
+void print_heap(Instr * instr);
+void print_instr(Instr * instr);
 
 #endif  // AST_H

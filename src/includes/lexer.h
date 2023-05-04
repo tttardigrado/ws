@@ -10,6 +10,9 @@ typedef struct {
     unsigned row, col;
 } Lexer;
 
+// Report Lexer errors
+void lexer_error(const char * msg, unsigned row, unsigned col);
+
 // Init a new lexer with a given content
 void  lexer_init(char * content);
 

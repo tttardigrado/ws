@@ -1,8 +1,14 @@
 #include "includes/lexer.h"
 #include "includes/token.h"
+#include "includes/common.h"
 #include <stdbool.h>
 
 static Lexer lex;
+
+void lexer_error(const char * msg, unsigned row, unsigned col) {
+    printf("%s at line %d column %d\n", msg, row, col);
+    exit(1);
+}
 
 // Init a new lexer with a given content
 void lexer_init(char * content) {
@@ -41,7 +47,8 @@ Token lexer_get_tok() {
     lexer_ignore();
     
     // return a special token to mark the end of the token stream 
-    if (lexer_is_at_end()) return token_new(END, lex.row, lex.col);
+    if (lexer_is_at_end())
+        lexer_error("Consumed all of the input without being able to finish parsing", lex.row, lex.col);
 
     // return a token based on the character found
     switch (lexer_eat()){
@@ -54,5 +61,5 @@ Token lexer_get_tok() {
     }
     
     // if none of the previous matched something wrong happened
-    return token_new(ERROR, lex.row, lex.col);
+    lexer_error("An error ocurred while Lexing", lex.row, lex.col - 1);
 }

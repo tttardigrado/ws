@@ -1,7 +1,17 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "includes/parser.h"
 #include "includes/lexer.h"
 #include "includes/token.h"
 #include "includes/ast.h"
+#include "includes/common.h"
+
+void parser_errror(const char * msg, Token * tok1, Token * tok2) {
+    puts(msg);
+    token_print(tok1);
+    token_print(tok2);
+    exit(1);
+}
 
 Instr parser_get_instr() {
     Token tok1 = lexer_get_tok();
@@ -16,7 +26,7 @@ Instr parser_get_instr() {
         if (is_kind(tok2, TAB  )) return parse_heap();
         if (is_kind(tok2, LINE )) return parse_io();
     }
-    // TODO: ERROR
+    parser_errror("Invalid IMP: ", &tok1, &tok2);
 }
 
 Instr parse_io() {
@@ -30,7 +40,9 @@ Instr parse_io() {
     else if (is_kind(tok1, SPACE)) {
         if (is_kind(tok2, SPACE)) return make_io(SHOWC);
         if (is_kind(tok2, TAB  )) return make_io(SHOWI);
-    }// TODO: ERROR
+    }
+
+    parser_errror("Invalid IO Command: ", &tok1, &tok2);
 }
 
 Instr parse_stack() {
@@ -53,7 +65,7 @@ Instr parse_stack() {
             return make_stack_param(SLIDE, parse_signed());
     }
     
-    // TODO: ERROR
+    parser_errror("Invalid STACK Command: ", &tok1, &tok2);
 }
 
 Instr parse_flow() {
@@ -81,7 +93,7 @@ Instr parse_flow() {
         return make_flow(EXIT);
     }
     
-    // TODO: ERROR
+    parser_errror("Invalid FLOW Command", &tok1, &tok2);
 }
 
 Instr parse_arith() {
@@ -97,7 +109,8 @@ Instr parse_arith() {
         if (is_kind(tok2, SPACE)) return make_arith(DIV);
         if (is_kind(tok2, TAB  )) return make_arith(MOD);
     }
-    // TODO: ERROR
+    
+    parser_errror("Invalid ARITH Command: ", &tok1, &tok2);
 }
 
 Instr parse_heap() {
@@ -105,7 +118,8 @@ Instr parse_heap() {
 
     if (is_kind(tok, SPACE)) return make_heap(STORE);
     if (is_kind(tok, TAB  )) return make_heap(RETRIEVE);
-    // TODO: ERROR
+
+    parser_errror("Invalid HEAP Command: ", &tok, NULL);
 }
 
 int parse_signed() {
@@ -120,7 +134,7 @@ int parse_unsigned() {
     int res = 0;
 
     while((tok = lexer_get_tok()).kind != LINE)
-        res = tok.kind == TAB ? res * 2 + 1 : res;
+        res = tok.kind == TAB ? res * 2 + 1 : res * 2;
     
     return res;
 }
