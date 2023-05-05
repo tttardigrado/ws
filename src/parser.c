@@ -7,9 +7,8 @@
 #include "includes/common.h"
 
 void parser_errror(const char * msg, Token * tok1, Token * tok2) {
-    puts(msg);
-    token_print(tok1);
-    token_print(tok2);
+    // TODO: handle NULL
+    fprintf(stderr, "%s: [%s][%s]", msg, ws_string[tok1->kind], ws_string[tok2->kind]);
     exit(1);
 }
 

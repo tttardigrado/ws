@@ -16,8 +16,6 @@ void token_print_pos(Token * tok) {
         case SPACE: printf("SPACE (%u, %u)\n", tok->row, tok->col); break;
         case TAB  : printf("TAB   (%u, %u)\n"  , tok->row, tok->col); break;
         case LINE : printf("Line  (%u, %u)\n" , tok->row, tok->col); break;
-        case END  : printf("EOF   (%u, %u)\n"  , tok->row, tok->col); break;
-        default   : printf("\033[0;31mERROR (%u, %u)\033[0m\n" , tok->row, tok->col); // print errors in red
     }
 }
 
@@ -29,8 +27,6 @@ void token_print(Token * tok) {
         case SPACE: putchar('S'); break;
         case TAB  : putchar('T'); break;
         case LINE : putchar('L'); break;
-        case END  : putchar('E'); break;
-        default   : printf("\033[0;31mERR\033[0m"); // print errors in red
     }
 }
 

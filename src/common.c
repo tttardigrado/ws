@@ -26,6 +26,17 @@ char * readFile(const char * path) {
     return buffer;
 }
 
+FILE * openWriteFile(const char * path) {
+    // Try to open the file
+    FILE * file = fopen(path, "w");
+    if (file == NULL) {
+        fprintf(stderr, "Could not open file \"%s\".\n", path);
+        exit(74);
+    }
+
+    return file;
+}
+
 bool streq(const char * str1, const char * str2) {
     return strcmp(str1, str2) == 0;
 }

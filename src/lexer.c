@@ -2,11 +2,12 @@
 #include "includes/token.h"
 #include "includes/common.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 static Lexer lex;
 
 void lexer_error(const char * msg, unsigned row, unsigned col) {
-    printf("%s at line %d column %d\n", msg, row, col);
+    fprintf(stderr, "%s at line %d column %d\n", msg, row, col);
     exit(1);
 }
 

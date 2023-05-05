@@ -5,13 +5,9 @@
 #include <stdbool.h>
 
 // Enum for the kinds of whitespace tokens
-typedef enum {
-    END,   // End of the src file
-    SPACE, // ' '  - space
-    TAB,   // '\t' - tab
-    LINE,  // '\n' - new line
-    ERROR  // Some error occured
-} WS;
+typedef enum { SPACE, TAB, LINE } WS;
+
+static const char * ws_string[] = { "SPACE", "TAB", "LINE" };
 
 // Token with a kind and it's position on the file 
 typedef struct {
