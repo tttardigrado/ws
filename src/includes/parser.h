@@ -5,7 +5,8 @@
 #include "ast.h"
 
 // Report Parser Errors and exit
-void parser_errror(const char * msg, Token * tok1, Token * tok2);
+void parser_error(const char * msg, Token * tok1);
+void parser_error2(const char * msg, Token * tok1, Token * tok2);
 
 // Parse a full instruction
 Instr parser_get_instr();

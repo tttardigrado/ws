@@ -5,11 +5,11 @@
 #include <stdbool.h>
 
 // Enum for the kinds of whitespace tokens
-typedef enum { SPACE, TAB, LINE } WS;
+typedef enum { END, SPACE, TAB, LINE } WS;
 
-static const char * ws_string[] = { "SPACE", "TAB", "LINE" };
+static const char * ws_string[] = { "END", "SPACE", "TAB", "LINE" };
 
-// Token with a kind and it's position on the file 
+// Token with a kind and it's position on the file
 typedef struct {
     WS kind;
     unsigned row, col; // position
@@ -21,7 +21,7 @@ Token token_new(WS kind, unsigned row, unsigned col);
 // Print a token with position ended by a new line
 void token_print_pos(Token * tok);
 
-// Print a simplified version of the token (only kind) 
+// Print a simplified version of the token (only kind)
 void token_print(Token * tok);
 
 // Check if a character is a valid token

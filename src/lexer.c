@@ -1,6 +1,7 @@
 #include "includes/lexer.h"
 #include "includes/token.h"
 #include "includes/common.h"
+#include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -46,21 +47,20 @@ void  lexer_ignore() {
 // Get the next token from the stream
 Token lexer_get_tok() {
     lexer_ignore();
-    
-    // return a special token to mark the end of the token stream 
-    if (lexer_is_at_end())
-        lexer_error("Consumed all of the input without being able to finish parsing", lex.row, lex.col);
+
+    // return a special token to mark the end of the token stream
+    if (lexer_is_at_end()) return token_new(END, lex.row, lex.col-1);
 
     // return a token based on the character found
     switch (lexer_eat()){
     case ' ' : return token_new(SPACE, lex.row, lex.col-1);
     case '\t': return token_new(TAB  , lex.row, lex.col-1);
-    case '\n': 
-        Token tok = token_new(LINE, lex.row, lex.col-1); 
-        lex.col = 0; lex.row++; // go back to the start of the line and increment the line number 
+    case '\n':
+        Token tok = token_new(LINE, lex.row, lex.col-1);
+        lex.col = 0; lex.row++; // go back to the start of the line and increment the line number
         return tok;
     }
-    
+
     // if none of the previous matched something wrong happened
     lexer_error("An error ocurred while Lexing", lex.row, lex.col - 1);
 }

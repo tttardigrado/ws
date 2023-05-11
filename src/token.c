@@ -16,10 +16,11 @@ void token_print_pos(Token * tok) {
         case SPACE: printf("SPACE (%u, %u)\n", tok->row, tok->col); break;
         case TAB  : printf("TAB   (%u, %u)\n"  , tok->row, tok->col); break;
         case LINE : printf("Line  (%u, %u)\n" , tok->row, tok->col); break;
+        case END  : printf("END   (%u, %u)\n" , tok->row, tok->col); break;
     }
 }
 
-// Print a simplified version of the token (only kind) 
+// Print a simplified version of the token (only kind)
 void token_print(Token * tok) {
     if (tok == NULL) return;
 
@@ -27,10 +28,11 @@ void token_print(Token * tok) {
         case SPACE: putchar('S'); break;
         case TAB  : putchar('T'); break;
         case LINE : putchar('L'); break;
+        case END  : putchar('E'); break;
     }
 }
 
-// Check if a character is a valid token (' ', '\n', '\t') 
+// Check if a character is a valid token (' ', '\n', '\t')
 bool is_valid(char c) {
     return c == ' ' || c == '\n' || c == '\t';
 }

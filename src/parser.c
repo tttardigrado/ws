@@ -6,15 +6,19 @@
 #include "includes/ast.h"
 #include "includes/common.h"
 
-void parser_errror(const char * msg, Token * tok1, Token * tok2) {
-    // TODO: handle NULL
+void parser_error(const char * msg, Token * tok1) {
+    fprintf(stderr, "%s: [%s]", msg, ws_string[tok1->kind]);
+    exit(1);
+}
+
+void parser_error2(const char * msg, Token * tok1, Token * tok2) {
     fprintf(stderr, "%s: [%s][%s]", msg, ws_string[tok1->kind], ws_string[tok2->kind]);
     exit(1);
 }
 
 Instr parser_get_instr() {
     Token tok1 = lexer_get_tok();
-    
+
     if (is_kind(tok1, SPACE)) return parse_stack();
     if (is_kind(tok1, LINE )) return parse_flow();
 
@@ -25,7 +29,7 @@ Instr parser_get_instr() {
         if (is_kind(tok2, TAB  )) return parse_heap();
         if (is_kind(tok2, LINE )) return parse_io();
     }
-    parser_errror("Invalid IMP: ", &tok1, &tok2);
+    parser_error2("Invalid IMP: ", &tok1, &tok2);
 }
 
 Instr parse_io() {
@@ -35,13 +39,13 @@ Instr parse_io() {
     if (is_kind(tok1, TAB)) {
         if (is_kind(tok2, SPACE)) return make_io(READC);
         if (is_kind(tok2, TAB  )) return make_io(READI);
-    } 
+    }
     else if (is_kind(tok1, SPACE)) {
         if (is_kind(tok2, SPACE)) return make_io(SHOWC);
         if (is_kind(tok2, TAB  )) return make_io(SHOWI);
     }
 
-    parser_errror("Invalid IO Command: ", &tok1, &tok2);
+    parser_error2("Invalid IO Command: ", &tok1, &tok2);
 }
 
 Instr parse_stack() {
@@ -49,7 +53,7 @@ Instr parse_stack() {
 
     if (is_kind(tok1, SPACE))
         return make_stack_param(PUSH, parse_signed());
-    
+
     Token tok2 = lexer_get_tok();
 
     if (is_kind(tok1, LINE)) {
@@ -63,15 +67,15 @@ Instr parse_stack() {
         if (is_kind(tok2, LINE))
             return make_stack_param(SLIDE, parse_signed());
     }
-    
-    parser_errror("Invalid STACK Command: ", &tok1, &tok2);
+
+    parser_error2("Invalid STACK Command: ", &tok1, &tok2);
 }
 
 Instr parse_flow() {
     Token tok1 = lexer_get_tok();
     Token tok2 = lexer_get_tok();
 
-    
+
     if (is_kind(tok1, SPACE)) {
         if (is_kind(tok2, SPACE))
             return make_flow_param(LABEL, parse_unsigned());
@@ -91,8 +95,8 @@ Instr parse_flow() {
     else if (is_kind(tok1, LINE) && is_kind(tok2, LINE)) {
         return make_flow(EXIT);
     }
-    
-    parser_errror("Invalid FLOW Command", &tok1, &tok2);
+
+    parser_error2("Invalid FLOW Command", &tok1, &tok2);
 }
 
 Instr parse_arith() {
@@ -108,8 +112,8 @@ Instr parse_arith() {
         if (is_kind(tok2, SPACE)) return make_arith(DIV);
         if (is_kind(tok2, TAB  )) return make_arith(MOD);
     }
-    
-    parser_errror("Invalid ARITH Command: ", &tok1, &tok2);
+
+    parser_error2("Invalid ARITH Command: ", &tok1, &tok2);
 }
 
 Instr parse_heap() {
@@ -118,13 +122,13 @@ Instr parse_heap() {
     if (is_kind(tok, SPACE)) return make_heap(STORE);
     if (is_kind(tok, TAB  )) return make_heap(RETRIEVE);
 
-    parser_errror("Invalid HEAP Command: ", &tok, NULL);
+    parser_error("Invalid HEAP Command: ", &tok);
 }
 
 int parse_signed() {
     Token tok = lexer_get_tok();
     int sign = tok.kind == TAB ? -1 : 1;
-    
+
     return sign * parse_unsigned();
 }
 
@@ -133,8 +137,11 @@ int parse_unsigned() {
     int res = 0;
 
     while((tok = lexer_get_tok()).kind != LINE)
-        res = tok.kind == TAB ? res * 2 + 1 : res * 2;
-    
+    	if (tok.kind == END)
+    		parser_error("Invalid Parameter", &tok);
+    	else
+    		res = tok.kind == TAB ? res * 2 + 1 : res * 2;
+
     return res;
 }
 
