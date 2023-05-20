@@ -1,6 +1,16 @@
 #include "includes/gen.h"
 #include <stdio.h>
 
+void mips_init(FILE * f) {
+	// data
+	fprintf(f, "\t.data\n");
+	fprintf(f, "cs: word 0:2048\n");
+	// text
+	fprintf(f, "\t .text\n");
+	fprintf(f, "main:\n");
+	fprintf(f, "\tla   $s0, cs\n");
+}
+
 void pop(FILE * f, char * reg) {
 	fprintf(f, "\tlw   $%s, 0($sp)\n", reg);
 	fprintf(f, "\taddi $sp, $sp, 0\n");
@@ -80,4 +90,41 @@ void mips_slide(FILE * f, int n) {
 	fprintf(f, "\tlw   $t0, 0($sp)\n");
 	fprintf(f, "\taddi $sp, $sp, %d\n", (n+1) * 4);
 	push(f, "t0");
+}
+
+
+// FLOW CONTROL Commands
+void mips_label(FILE * f, int n) {
+	fprintf(f, "label%d:\n", n);
+}
+
+void mips_call(FILE * f, int n) {
+	fprintf(f, "\tsw   $ra, 0($s0)\n");
+	fprintf(f, "\taddi $s0, $s0, 4\n");
+	fprintf(f, "\tjal  label%d\n", n);
+}
+
+void mips_jmp(FILE * f, int n) {
+	fprintf(f, "\tj    label%d\n", n);
+}
+
+void mips_jmpneg(FILE * f, int n) {
+	fprintf(f, "\tlw   $t0, 0($sp)\n");
+	fprintf(f, "\tbltz $t0, label%d\n", n);
+}
+
+void mips_jmpz(FILE * f, int n) {
+	fprintf(f, "\tlw   $t0, 0($sp)\n");
+	fprintf(f, "\tbeqz $t0, label%d\n", n);
+}
+
+void mips_return(FILE * f) {
+	fprintf(f, "\tlw   $ra, 0($s0)\n");
+	fprintf(f, "\taddi $s0, $s0, -4\n");
+	fprintf(f, "\tjr   $ra\n");
+}
+
+void mips_exit(FILE * f) {
+	fprintf(f, "\tli $v0, 10\n");
+	fprintf(f, "\tsyscall\n");
 }

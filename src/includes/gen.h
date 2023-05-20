@@ -2,6 +2,8 @@
 #define GEN_H
 #include <stdio.h>
 
+void mips_init(FILE * f);
+
 void mips_add(FILE * f);
 void mips_sub(FILE * f);
 void mips_mul(FILE * f);
